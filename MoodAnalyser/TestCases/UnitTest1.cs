@@ -6,11 +6,11 @@ namespace MoodAnalyserTest
 
     public class AnalyseMoodTestCases
     {
-        MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory();
+        MoodAnalyserFactory factory = new MoodAnalyserFactory();
         [SetUp]
         public void Setup()
         {
-            moodAnalyserFactory = new MoodAnalyserFactory();
+            factory = new MoodAnalyserFactory();
         }
 
         //TC 4.1 - Proper class details are provided and expected to return the MoodAnalyser Object
@@ -21,7 +21,7 @@ namespace MoodAnalyserTest
             MoodAnalysis expected = new MoodAnalysis();
             object obj;
 
-            MoodAnalyserFactory factory = new MoodAnalyserFactory();
+            factory = new MoodAnalyserFactory();
             obj = factory.CreatemoodAnalyse(className, constructorName);
             expected.Equals(obj);
         }
@@ -32,7 +32,7 @@ namespace MoodAnalyserTest
         {
             try
             {
-                MoodAnalyserFactory factory = new MoodAnalyserFactory();
+                factory = new MoodAnalyserFactory();
                 object actual = factory.CreatemoodAnalyse(className, constructorName);
             }
             catch (CustomException ex)
@@ -47,7 +47,7 @@ namespace MoodAnalyserTest
         {
             try
             {
-                MoodAnalyserFactory factory = new MoodAnalyserFactory();
+                factory = new MoodAnalyserFactory();
                 object actual = factory.CreatemoodAnalyse(className, constructorName);
             }
             catch (CustomException ex)
@@ -55,19 +55,74 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expected, ex.Message);
             }
         }
+        //TC 5.1 - Method to test moodanalyser class with parameter constructor to check if two objects are equal
+
+        [TestCase("I am in sad mood")]
+        [TestCase("I am in any mood")]
+        public void GivenMoodAnalyserWhenProperShouldReturnMoodAnalyserObject(string message)
+        {
+            MoodAnalysis expected = new MoodAnalysis(message);
+            object obj = null;
+            try
+            {
+                factory = new MoodAnalyserFactory();
+                obj = factory.CreateMoodAnalyseParameterObject("MoodAnalysis", "MoodAnalysis", message);
+            }
+            catch (CustomException actual)
+            {
+                Assert.That(actual.Message, Is.EqualTo(obj));
+            }
+            obj.Equals(expected);
+        }
+        //TC 5.2 - Method to test moodanalyser with diff class with parameter constructor to throw error
+
+        [TestCase("Mood", "I am in Happy mood", "could not find class")]
+        public void GIvenClassNmaeWhenImproperShouldThrowException(string className, string message, string expexted)
+        {
+            MoodAnalysis expected = new MoodAnalysis(message);
+            object obj = null;
+            try
+            {
+                factory = new MoodAnalyserFactory();
+                obj = factory.CreateMoodAnalyseParameterObject(className, "MoodAnalysis", message);
+
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expexted, ex.Message);
+            }
+        }
+        //TC 5.3 - Method to test moodanalyser with diff constructor with parameter constructor to throw error
+
+        [TestCase("Mood", "I am in Happy mood", "could not find constructor")]
+        public void GIvenConstructorNameWhenImproperShouldThrowException(string construtorName, string message, string expexted)
+        {
+            MoodAnalysis expected = new MoodAnalysis(message);
+            object obj;
+            try
+            {
+                factory = new MoodAnalyserFactory();
+                obj = factory.CreateMoodAnalyseParameterObject("MoodAnalysis", construtorName, message);
+
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expexted, ex.Message);
+            }
+        }
 
     }
 }
 
-//UC-4
-//Use Reflection to Create MoodAnalyser with default Constructor 
-//- Create MoodAnalyserFactory and specify static method to create MoodAnalyser Object
+//UC-5
+//Use Reflection to Create MoodAnalyser with Parameter Constructor
+//- Use MoodAnalyserFactory to create MoodAnalyser Object with Message Parameneter
 
 //Result
-//MoodAnalyserTest
-//  Tests in group: 3
+//TestCases
+//  Tests in group: 7
 
-//  Total Duration: 32 ms
+//  Total Duration: 24 ms
 
 //Outcomes
-//   3 Passed
+//   7 Passed

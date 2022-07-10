@@ -125,22 +125,64 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expected, ex.Message);
             }
         }
+        //UC 7.1 Set Happy Message With Reflector Should Return Happy
+
+        [TestCase("happy", "happy", "message")]
+        [TestCase("sad", "sad", "message")]
+        public void SetHappyMessageWithReflectorShouldReturnHappy(string value, string expected, string fieldName)
+        {
+            try
+            {
+                string actual = factory.SetField(value, fieldName);
+                Assert.AreEqual(expected, actual);
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        //UC 7.2 Set Field When Improper Should Throw Exception NoSuchField
+
+        [TestCase("happy", "field not found", "improperField")]
+        public void SetFieldWhenImproperShouldThrowExceptionNoSuchField(string value, string expected, string fieldName)
+        {
+            try
+            {
+                string actual = factory.SetField(value, fieldName);
+                Assert.AreEqual(expected, actual);
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        //UC 7.3 Null Message With Reflector Should throw exception
+
+        [TestCase(null, "message should not be null", "message")]
+        public void SettingNullMessageWithReflectorShouldThrowException(string value, string expected, string fieldName)
+        {
+            try
+            {
+                string actual = factory.SetField(value, fieldName);
+                Assert.AreEqual(expected, actual);
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
     }
 }
 
 
 
-/// TC-6.1  Given Happy Message Using Reflection When Proper Should Return HAPPY Mood
-/// To pass this TC use reflection to invoke analyseMood Method and show HAPPY mood
-/// 
-/// TC-6.2 Given Happy Message When Improper Method Should Throw MoodAnalysisException
-/// To pass this Test Case pass wrong Method Name,
-/// catch the Exception and throw indicating No Such Method Error
+
+
 
 //TestCases
-//  Tests in group: 9
+//  Tests in group: 13
 
-//  Total Duration: 2.5 min
+//  Total Duration: 41 ms
 
 //Outcomes
-//   9 Passed
+//   13 Passed

@@ -110,19 +110,37 @@ namespace MoodAnalyserTest
                 Assert.AreEqual(expexted, ex.Message);
             }
         }
+        //UC 6.1,6.2 - Method to invoke analyse mood method to return happy or sad or invalid method
 
+        [TestCase("HAPPY")]
+        [TestCase("Method not found")]
+        public void ReflectionReturnMethod(string expected)
+        {
+            try
+            {
+                string actual = factory.InvokeAnalyseMood("happy", "AnalyseMood");
+            }
+            catch (CustomException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
     }
 }
 
-//UC-5
-//Use Reflection to Create MoodAnalyser with Parameter Constructor
-//- Use MoodAnalyserFactory to create MoodAnalyser Object with Message Parameneter
 
-//Result
+
+/// TC-6.1  Given Happy Message Using Reflection When Proper Should Return HAPPY Mood
+/// To pass this TC use reflection to invoke analyseMood Method and show HAPPY mood
+/// 
+/// TC-6.2 Given Happy Message When Improper Method Should Throw MoodAnalysisException
+/// To pass this Test Case pass wrong Method Name,
+/// catch the Exception and throw indicating No Such Method Error
+
 //TestCases
-//  Tests in group: 7
+//  Tests in group: 9
 
-//  Total Duration: 24 ms
+//  Total Duration: 2.5 min
 
 //Outcomes
-//   7 Passed
+//   9 Passed
